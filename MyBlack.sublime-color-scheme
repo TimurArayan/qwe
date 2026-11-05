@@ -1,0 +1,88 @@
+{
+    "name": "My",
+    "author": "Timur",
+    "variables": { },
+    "globals":
+    {
+        "foreground": "rgb(255,255,255)",
+        "background": "rgb(13,15,21)",
+        "caret": "rgb(255,255,255)",
+        "line_highlight": "rgba(255,255,255,0)",
+        "selection": "rgba(110,140,110,0.5)",
+        "selection_border": "rgba(110,140,110,0.75)",
+        "inactive_selection": "rgba(77,98,77,0.5)",
+        "misspelling": "rgba(255,0,0,1)",
+        "brackets_options": "nothing",
+    },
+    "rules":
+    [
+        {
+            "scope": "source",
+            "foreground": "rgb(255,255,255)"
+        },
+        {
+            "scope": "comment, punctuation.definition.comment",
+            "foreground": "rgb(255,255,195)"
+        },
+        {
+            "scope": "constant.numeric",
+            "foreground": "rgb(255,255,255)"
+        },
+        {
+            "scope": "constant.language",
+            "foreground": "rgb(255,55,55)"
+        },
+        {
+            "scope": "constant.character.escape",
+            "foreground": "rgb(255,255,125)"
+        },
+        {
+            "scope": "keyword.declaration",
+            "foreground": "rgb(155, 125, 255)"
+        },
+        {
+            "scope": "keyword.control",
+            "foreground": "rgb(100,255,255)"
+        },
+        {
+            "scope": "keyword.control.import",
+            "foreground": "rgb(255,255,115)"
+        },
+        {
+            "scope": "keyword.operator",
+            "foreground": "rgb(255,155,95)"
+        },
+        {
+            "scope": "punctuation",
+            "foreground": "rgb(215, 255, 215)"
+        },
+        {
+            "scope": "meta.string",
+            "foreground": "rgb(215,215,215)"
+        },
+        {
+            "scope": "variable.function",
+            "foreground": "rgb(255,155,220)"
+        },
+        {
+            "scope": "entity.name",
+            "foreground": "rgb(225,25,155)"
+        },
+        {
+            "scope": "meta.type",
+            "foreground": "rgb(150,225,120)"
+        },
+        {
+            "scope": "support.type, support.class",
+            "foreground": "rgb(150,225,120)"
+        },
+        {
+            "scope": "support.constant",
+            "foreground": "rgb(255,55,55)",
+        },
+        {
+            "scope": "support.function, support.macro",
+            "foreground": "rgb(255,155,220)"
+        },
+    ]
+}
