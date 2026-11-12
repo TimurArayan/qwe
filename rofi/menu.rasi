@@ -1,0 +1,94 @@
+configuration {
+    modes: "drun,Питание:/bin/sh /home/t/.config/rofi/rofi-power.sh,Интернет:/usr/bin/true";
+    display-drun: "Приложения";
+    drun-categories: "X-RofiFavorites";
+    show-icons: true;
+    hover-select: true;
+    me-select-entry: "";
+    me-accept-entry: "MousePrimary";
+    kb-cancel: "Escape,Super+d";
+    drun-match-fields: "name,generic";
+    disable-history: true;
+    drun-display-format: "{generic}";
+    kb-move-char-back: "Control+b";
+    kb-move-char-forward: "Control+f";
+    kb-move-word-back: "Alt+b";
+    kb-move-word-forward: "Alt+f";
+    kb-entry-history-up: "";
+    kb-entry-history-down: "";
+    kb-row-left: "Left";
+    kb-row-right: "Right";
+    kb-row-up: "Up";
+    kb-row-down: "Down";
+    kb-mode-previous: "Control+Left";
+    kb-mode-next: "Control+Right";
+}
+
+* {
+    font: "Calibri 12";
+    background-color: transparent;
+    text-color: #ffffff;
+}
+
+window {
+    width: 400px;
+    height: 540px;
+    location: southeast;
+    anchor: southeast;
+    y-offset: -40px;
+    background-color: #151419;
+    border: 0;
+}
+
+mainbox {
+    children: [ mode-switcher, listview ];
+    spacing: 8px;
+    padding: 8px;
+}
+
+mode-switcher { spacing: 2px; }
+button {
+    font: "Calibri 12";
+    padding: 6px 1px;
+    text-color: #ed2467;
+}
+button selected {
+    background-color: #b52e5c;
+    text-color: #ffffff;
+}
+listview {
+    columns: 3;
+    lines: 4;
+    flow: horizontal;
+    fixed-height: true;
+    fixed-columns: true;
+    scrollbar: false;
+    spacing: 6px;
+    cycle: false;
+}
+element {
+    orientation: vertical;
+    children: [ element-icon, element-text ];
+    padding: 6px 8px;
+    spacing: 10px;
+}
+element normal.normal, element alternate.normal {
+    background-color: #151419;
+    text-color: #ed2467;
+}
+element selected.normal {
+    background-color: #b52e5c;
+    text-color: #000000;
+}
+element-icon {
+    size: 48px;
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+}
+element-text {
+    font: "Comic True Mono 12";
+    background-color: inherit;
+    text-color: inherit;
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+}
