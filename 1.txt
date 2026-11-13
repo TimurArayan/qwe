@@ -1,0 +1,4 @@
+sudo timedatectl set-timezone Europe/Moscow
+sudo timedatectl set-local-rtc 0
+sudo timedatectl set-ntp true
+timedatectl
