@@ -1,0 +1,895 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+\input{C:/preamble.tex}
+
+\usepackage{tcolorbox}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+
+\begin{document}
+	Разобьём границу области $\Omega$ -- $\partial \Omega$  на твёрдые стенки $\Gamma_D$,
+вход $\Gamma_{\mathrm{L}}$ и выход $\Gamma_{\mathrm{R}}$.
+
+
+Пусть $\mathbf n = (n_x,n_y)$ -- внешняя единичная нормаль
+к $\partial \Omega$ . Введём функции
+$
+	p_{\mathrm{L}}(y),~ p_{\mathrm{R}}(y)
+$
+на $\Gamma_{\mathrm{L}}$ и $\text{на } \Gamma_{\mathrm{R}}$.
+
+
+
+
+
+
+
+Тогда стационарная задача Стокса для постоянной вязкости
+с условием прилипания на стенках и заданным псевдонапряжением
+на входе и выходе имеет вид
+\begin{equation}
+	\begin{cases}
+		-\nu \Delta v_x
+		+ \dfrac{\partial p}{\partial x}
+		= f_x, \\
+
+		-\nu \Delta v_y
+		+ \dfrac{\partial p}{\partial y}
+		= f_y, \\
+
+		\dfrac{\partial v_x}{\partial x}
+		+
+		\dfrac{\partial v_y}{\partial y}
+		= 0,
+	\end{cases}
+	\label{eq1}
+	\end{equation}
+	с граничными условиями
+	\begin{equation}
+		\begin{gathered}
+		v_x \big |_{\Gamma_D} = 0,\quad
+		v_y \big |_{\Gamma_D} = 0,\\
+		\nu\dfrac{\partial v_x}{\partial n}
+		- p n_x
+		= -p_{\mathrm{L}} n_x, \quad
+		\nu\dfrac{\partial v_x}{\partial n}
+		- p n_x
+		= -p_{\mathrm{R}} n_x, \\
+		\nu\dfrac{\partial v_y}{\partial n}
+		- p n_y
+		= -p_{\mathrm{L}} n_y, \quad
+		\nu\dfrac{\partial v_y}{\partial n}
+		- p n_y
+		= -p_{\mathrm{R}} n_y,
+	\end{gathered}
+	\end{equation}
+	здесь $v_x$ и $v_y$ --- компоненты скорости,
+	$p$ --- давление, $\nu$ --- известная постоянная вязкость,
+	а $f_x$ и $f_y$ --- компоненты заданной объёмной силы.
+	
+	Принимая
+	\begin{equation}
+	{\mathbf u} = (v_x,v_y)^{T},\quad
+	\mathbf f = (f_x, f_y)^{T},\quad
+	\Gamma_{N} = \Gamma_{\mathrm{L}} \cup \Gamma_{\mathrm{R}}, \quad
+	p_{b} = p_{\mathrm{L}} \cup p_{\mathrm{R}},
+	\end{equation}
+	оно записывается в векторном виде
+	\begin{equation}
+		\begin{dcases}
+			-\nu\Delta{\mathbf u}
+			+\nabla p
+			=\mathbf f,
+			\\
+			\operatorname{div}{\mathbf u}=0,
+		\end{dcases}
+		\qquad
+		\begin{gathered}
+			\left.{\mathbf u}\right|_{\Gamma_D}=0,
+			\\
+			\left.
+			\left(
+			\nu\frac{\partial{\mathbf u}}{\partial n}
+			-p\mathbf n
+			\right)
+			\right|_{\Gamma_N}
+			=
+			-p_b\mathbf n.
+		\end{gathered}
+		\label{eq:stokes_vector}
+	\end{equation}
+	
+	
+	\section{Слабая форма}
+	
+	Домножим первое и второе уравнения~\eqref{eq1}
+	на тестовые функции $\varphi$ и $\psi$, которые равны 0 на
+	$\Gamma_D$ (на $\Gamma_N$ они могут быть ненулевыми), а третье уравнение --- на $q$, и проинтегрируем по всей области.
+
+	
+	Первое уравнение примет  вид
+	\begin{equation}
+		-\nu \int_{\Omega}
+		\left(
+		\frac{\partial^2 v_x}{\partial x^2}
+		+
+		\frac{\partial^2 v_x}{\partial y^2}
+		\right)
+		\varphi \, d\Omega
+		+
+		\int_{\Omega}
+		\frac{\partial p}{\partial x}
+		\varphi \, d\Omega
+		=
+		\int_{\Omega} f_x\varphi \, d\Omega.
+	\end{equation}
+	
+	Проинтегрируем слагаемые левой части по частям:
+	\begin{enumerate}
+		\item Для слагаемого с лапласианом:
+		\begin{equation*}
+			\int_{\Omega}
+			\Delta v_x\,\varphi \, d\Omega
+			=
+			-\int_{\Omega}
+			\nabla v_x\cdot\nabla\varphi \, d\Omega
+			+
+			\int_{\partial\Omega}
+			\frac{\partial v_x}{\partial n}
+			\varphi \, d\Gamma.
+		\end{equation*}
+		
+		\item Для слагаемого с давлением:
+		\begin{equation*}
+			\int_{\Omega}
+			\frac{\partial p}{\partial x}
+			\varphi \, d\Omega
+			=
+			-\int_{\Omega}
+			p\frac{\partial\varphi}{\partial x} \, d\Omega
+			+
+			\int_{\partial\Omega}
+			p\,n_x\varphi \, d\Gamma.
+		\end{equation*}
+	\end{enumerate}
+	
+	Поскольку $\varphi=0$ на $\Gamma_D$, в граничных интегралах
+	остаётся только участок $\Gamma_N$. Объединяя граничные
+	слагаемые и перенося их в правую часть, получаем
+	\begin{equation*}
+		\begin{aligned}
+			\nu\int_{\Omega}
+			\nabla v_x\cdot\nabla\varphi \, d\Omega
+			-
+			\int_{\Omega}
+			p\frac{\partial\varphi}{\partial x} \, d\Omega
+			={}&
+			\int_{\Omega} f_x\varphi \, d\Omega
+			\\
+			&+
+			\int_{\Gamma_N}
+			\left(
+			\nu\frac{\partial v_x}{\partial n}
+			-p n_x
+			\right)
+			\varphi \, d\Gamma.
+		\end{aligned}
+	\end{equation*}
+	
+	Подставляя граничное условие и аналогично преобразуя второе
+	уравнение, получаем слабую форму:
+	\begin{equation}
+		\begin{dcases}
+			\nu\int_\Omega
+			\nabla v_x\cdot\nabla\varphi \, d\Omega
+			-
+			\int_\Omega
+			p\frac{\partial\varphi}{\partial x} \, d\Omega
+			=
+			\int_\Omega f_x\varphi \, d\Omega
+			-
+			\int_{\Gamma_N}
+			p_b n_x\varphi \, d\Gamma,
+			\\
+			\nu\int_\Omega
+			\nabla v_y\cdot\nabla\psi \, d\Omega
+			-
+			\int_\Omega
+			p\frac{\partial\psi}{\partial y} \, d\Omega
+			=
+			\int_\Omega f_y\psi \, d\Omega
+			-
+			\int_{\Gamma_N}
+			p_b n_y\psi \, d\Gamma,
+			\\
+			\int_\Omega q\operatorname{div}u \, d\Omega = 0,
+		\end{dcases}
+		\label{eq:weak}
+	\end{equation}
+	где $v_x,v_y\in H^1(\Omega)$, $p\in L^2(\Omega)$,
+	причём $v_x=v_y=0$ на $\Gamma_D$. Равенства должны
+	выполняться для всех $\varphi,\psi\in H^1(\Omega)$,
+	равных нулю на $\Gamma_D$, и всех $q\in L^2(\Omega)$.
+	Граничные равенства понимаются в смысле следа.
+
+\section{Разбиение области и тестовые функции}
+
+Разобьём область $\Omega$ на $N_\tau$ подобластей
+$\tau_\alpha$ с непересекающимися внутренностями:
+\begin{equation}
+	\overline{\Omega}
+	=
+	\bigcup_{\alpha=1}^{N_\tau}
+	\overline{\tau_\alpha}.
+\end{equation}
+
+Обозначим через $\gamma_\alpha$ часть границы Неймана,
+принадлежащую границе подобласти $\tau_\alpha$:
+\begin{equation}
+	\gamma_\alpha
+	=
+	\partial\tau_\alpha \cap \Gamma_N.
+\end{equation}
+
+Предположим, что участки $\gamma_\alpha$ покрывают $\Gamma_N$
+и не перекрываются по длине. Если подобласть $\tau_\alpha$
+не соприкасается с $\Gamma_N$ по участку ненулевой длины,
+то соответствующий граничный вклад равен нулю.
+
+Интеграл по области представим суммой интегралов по подобластям,
+а граничный интеграл --- суммой интегралов по участкам
+$\gamma_\alpha$. Применяя это к первому уравнению слабой
+формы~\eqref{eq:weak}, получаем
+\begin{equation}
+	\begin{gathered}
+		\nu\sum_{\alpha=1}^{N_\tau}\int_{\tau_\alpha}
+		\nabla v_x\cdot\nabla\varphi\,d\tau_\alpha
+		-
+		\sum_{\alpha=1}^{N_\tau}\int_{\tau_\alpha}
+		p\frac{\partial\varphi}{\partial x}\,d\tau_\alpha
+		=\\
+		=
+		\sum_{\alpha=1}^{N_\tau}\int_{\tau_\alpha}
+		f_x\varphi\,d\tau_\alpha
+		-
+		\sum_{\alpha=1}^{N_\tau}\int_{\gamma_\alpha}
+		p_b n_x\varphi\,d\Gamma.
+	\end{gathered}
+	\label{eq:parts_first}
+\end{equation}
+
+Равенство выполняется для каждой допустимой глобальной
+тестовой функции $\varphi$. Граничное слагаемое не исчезает,
+так как тестовая функция на $\Gamma_N$ может быть ненулевой.
+
+Выберем конечные наборы допустимых тестовых функций:
+\[
+	\varphi_1,\ldots,\varphi_{m_\varphi},\qquad
+	\psi_1,\ldots,\psi_{m_\psi},\qquad
+	q_1,\ldots,q_{m_q}.
+\]
+
+Функции $\varphi_i$ и $\psi_i$ принадлежат $H^1(\Omega)$
+и равны нулю на $\Gamma_D$, а $q_i\in L^2(\Omega)$.
+Подставляя их в соответствующие уравнения, получаем систему
+с конечным количеством строк:
+\begin{equation}
+	\begin{dcases}
+		\nu\sum_{\alpha=1}^{N_\tau}\int_{\tau_\alpha}
+		\nabla v_x\cdot\nabla\varphi_i\,d\tau_\alpha
+		-
+		\sum_{\alpha=1}^{N_\tau}\int_{\tau_\alpha}
+		p\frac{\partial\varphi_i}{\partial x}\,d\tau_\alpha
+		=\\
+		=
+		\sum_{\alpha=1}^{N_\tau}\int_{\tau_\alpha}
+		f_x\varphi_i\,d\tau_\alpha
+		-
+		\sum_{\alpha=1}^{N_\tau}\int_{\gamma_\alpha}
+		p_b n_x\varphi_i\,d\Gamma,
+		\quad i=1,\ldots,m_\varphi;
+		\\
+		\cdots\quad
+		\text{(второе уравнение аналогично)}
+		\quad i=1,\ldots,m_\psi;
+		\\
+		\sum_{\alpha=1}^{N_\tau}\int_{\tau_\alpha}
+		q_i\operatorname{div}\mathbf u\,d\tau_\alpha=0,
+		\qquad i=1,\ldots,m_q.
+	\end{dcases}
+	\label{eq:parts_div}
+\end{equation}
+
+Получены равенства для выбранных тестовых функций. Искомые
+функции здесь ещё не заменены конечномерными приближениями,
+поэтому это пока не система относительно конечного числа
+числовых коэффициентов.
+
+Обозначим ограничения тестовых функций на подобласти:
+\[
+	\Phi_{i,\alpha}
+	=
+	\varphi_i|_{\tau_\alpha},\qquad
+	\Psi_{i,\alpha}
+	=
+	\psi_i|_{\tau_\alpha},\qquad
+	Q_{i,\alpha}
+	=
+	q_i|_{\tau_\alpha}.
+\]
+
+Для первого набора ограничения можно расположить в матрицу
+\begin{equation}
+	\Phi
+	=
+	\begin{pmatrix}
+		\Phi_{1,1}
+		&
+		\cdots
+		&
+		\Phi_{1,N_\tau}
+		\\
+		\vdots
+		&
+		\ddots
+		&
+		\vdots
+		\\
+		\Phi_{m_\varphi,1}
+		&
+		\cdots
+		&
+		\Phi_{m_\varphi,N_\tau}
+	\end{pmatrix}.
+\end{equation}
+
+Аналогично задаются матрицы ограничений $\Psi$ и $\mathcal Q$.
+Каждая строка содержит ограничения одной глобальной функции;
+ограничения $\Phi_{i,\alpha}$ и $\Phi_{i,\beta}$ на общей
+границе согласованы в смысле следов. Аналогичное замечание
+относится к $\Psi$. Для функций $q_i\in L^2(\Omega)$
+совпадение следов без дополнительных требований не предполагается.
+
+Интеграл по подобласти $\tau_\alpha$ зависит только от
+значений функций внутри этой подобласти. Поэтому вместо
+функций определенных на всей области можно использовать их ограничения на $\tau_\alpha$: значения функций и их производных внутри подобласти при этом не изменяются.
+
+Тогда первое уравнение принимает вид
+\begin{equation}
+	\begin{gathered}
+		\nu\sum_{\alpha=1}^{N_\tau}\int_{\tau_\alpha}
+		\nabla\left(v_x|_{\tau_\alpha}\right)
+		\cdot\nabla\Phi_{i,\alpha}\,d\tau_\alpha
+		-
+		\sum_{\alpha=1}^{N_\tau}\int_{\tau_\alpha}
+		\left(p|_{\tau_\alpha}\right)
+		\frac{\partial\Phi_{i,\alpha}}{\partial x}
+		\,d\tau_\alpha
+		=\\
+		=
+		\sum_{\alpha=1}^{N_\tau}\int_{\tau_\alpha}
+		\left(f_x|_{\tau_\alpha}\right)
+		\Phi_{i,\alpha}\,d\tau_\alpha
+		-
+		\sum_{\alpha=1}^{N_\tau}\int_{\gamma_\alpha}
+		p_b n_x\Phi_{i,\alpha}\,d\Gamma,
+		\quad i=1,\ldots,m_\varphi.
+	\end{gathered}
+	\label{eq:restriction_x}
+\end{equation}
+
+
+
+\section{Аппроксимация решения}
+
+В рассматриваемых пространствах можно выбрать полные
+ортонормированные системы функций. Согласно теореме о базисе
+сепарабельного гильбертова пространства, каждую функцию
+такого пространства можно представить рядом по соответствующей
+системе, сходящимся в норме этого пространства
+(см.~\cite{hilbert_basis}).
+
+Следовательно, отбрасывая все слагаемые ряда после некоторого
+номера, можно получить конечную линейную комбинацию,
+приближающую исходную функцию. При увеличении числа слагаемых
+погрешность такого приближения стремится к нулю в норме
+соответствующего пространства.
+
+Поэтому численные решения будем искать в виде конечных линейных комбинаций базисных функций.
+Для скорости будем выбирать базисные функции из
+$H^1(\Omega)$ с нулевым следом на $\Gamma_D$, а для давления
+--- из $L^2(\Omega)$. Поэтому конечные линейные комбинации
+этих функций также принадлежат соответствующим пространствам,
+а приближённая скорость удовлетворяет однородному граничному
+условию на $\Gamma_D$.
+
+\begin{equation}
+	v_x \approx
+	v_x^*
+	=
+	\sum_{j=1}^{N_x}\omega_{x,j}\lambda_{x,j},
+	\quad
+	v_y\approx
+	v_y^*
+	=
+	\sum_{j=1}^{N_y}\omega_{y,j}\lambda_{y,j},
+	\quad
+	p \approx
+	p^*
+	=
+	\sum_{k=1}^{N_p}\omega_{p,k}\lambda_{p,k},
+\end{equation}
+здесь $\omega_{x,j}$, $\omega_{y,j}$ и $\omega_{p,k}$ ---
+неизвестные числовые коэффициенты.
+Ограничивая эти разложения на подобласть $\tau_\alpha$,
+получаем
+\begin{equation}
+	v_x^*|_{\tau_\alpha}
+	=
+	\sum_{j=1}^{m_\varphi}
+	\omega_{x,j}\Phi_{j,\alpha},
+	\quad
+	v_y^*|_{\tau_\alpha}
+	=
+	\sum_{j=1}^{m_\psi}
+	\omega_{y,j}\Psi_{j,\alpha},
+	\quad
+	p^*|_{\tau_\alpha}
+	=
+	\sum_{k=1}^{m_q}
+	\omega_{p,k}Q_{k,\alpha}.
+	\label{eq:local_approximation}
+\end{equation}
+
+Теперь подставим это рахложжение, получим систему
+\begin{equation}
+	\begin{gathered}
+		\nu\sum_{\alpha=1}^{N_\tau}
+		\int_{\tau_\alpha}
+		\nabla\left(
+			\sum_{j=1}^{N_x}
+			\omega_{x,j}\lambda_{x,j,\alpha}
+		\right)
+		\cdot\nabla\Phi_{i,\alpha}\,d\tau_\alpha
+		-
+		\sum_{\alpha=1}^{N_\tau}
+		\int_{\tau_\alpha}
+		\left(
+			\sum_{k=1}^{N_p}
+			\omega_{p,k}\lambda_{p,k,\alpha}
+		\right)
+		\frac{\partial\Phi_{i,\alpha}}{\partial x}
+		\,d\tau_\alpha
+		=\\
+		=
+		\sum_{\alpha=1}^{N_\tau}
+		\int_{\tau_\alpha}
+		f_x\Phi_{i,\alpha}\,d\tau_\alpha
+		-
+		\sum_{\alpha=1}^{N_\tau}
+		\int_{\gamma_\alpha}
+		p_b n_x\Phi_{i,\alpha}\,d\Gamma,
+		\quad i=1,\ldots,m_\varphi.
+	\end{gathered}
+\end{equation}
+Коэффициент $\omega_{x,j}$ соответствует глобальной базисной
+функции $\lambda_{x,j}$ и поэтому остаётся одним и тем же
+при рассмотрении её ограничений на разные подобласти.
+В частности, если функция $\lambda_{x,j}$ ненулевая на
+нескольких соседних подобластях, то во всех этих подобластях
+при её ограничениях стоит один и тот же коэффициент
+$\omega_{x,j}$. Аналогично это относится к коэффициентам
+$\omega_{y,j}$ и $\omega_{p,k}$.
+
+Поскольку коэффициенты $\omega_{x,j}$ и $\omega_{p,k}$
+не зависят от координат, их можно вынести за знаки
+интегралов. Используя линейность градиента и интеграла,
+а также меняя порядок конечных сумм, получаем
+\begin{equation}
+	\begin{gathered}
+		\sum_{j=1}^{N_x}
+		\omega_{x,j}
+		\left(
+			\nu\sum_{\alpha=1}^{N_\tau}
+			\int_{\tau_\alpha}
+			\nabla\lambda_{x,j,\alpha}
+			\cdot\nabla\Phi_{i,\alpha}
+			\,d\tau_\alpha
+		\right)
+		-
+		\sum_{k=1}^{N_p}
+		\omega_{p,k}
+		\left(
+			\sum_{\alpha=1}^{N_\tau}
+			\int_{\tau_\alpha}
+			\lambda_{p,k,\alpha}
+			\frac{\partial\Phi_{i,\alpha}}{\partial x}
+			\,d\tau_\alpha
+		\right)
+		=
+		\\
+		=
+		\sum_{\alpha=1}^{N_\tau}
+		\int_{\tau_\alpha}
+		f_x\Phi_{i,\alpha}\,d\tau_\alpha
+		-
+		\sum_{\alpha=1}^{N_\tau}
+		\int_{\gamma_\alpha}
+		p_b n_x\Phi_{i,\alpha}\,d\Gamma,
+		\quad i=1,\ldots,m_\varphi.
+	\end{gathered}
+\end{equation}
+Множители коэффициентов нам известны, поэтому интегралы в полученном
+уравнении можно вычислить; неизвестными остаются
+коэффициенты.
+
+Введём обозначения
+\begin{equation}
+	\begin{gathered}
+		(A_x)_{ij}
+		=
+		\nu\sum_{\alpha=1}^{N_\tau}
+		\int_{\tau_\alpha}
+		\nabla\lambda_{x,j,\alpha}
+		\cdot\nabla\Phi_{i,\alpha}\,d\tau_\alpha,
+		\\
+		(B_x)_{ik}
+		=
+		\sum_{\alpha=1}^{N_\tau}
+		\int_{\tau_\alpha}
+		\lambda_{p,k,\alpha}
+		\frac{\partial\Phi_{i,\alpha}}{\partial x}
+		\,d\tau_\alpha,
+		\\
+		(F_x)_i
+		=
+		\sum_{\alpha=1}^{N_\tau}
+		\int_{\tau_\alpha}
+		f_x\Phi_{i,\alpha}\,d\tau_\alpha
+		-
+		\sum_{\alpha=1}^{N_\tau}
+		\int_{\gamma_\alpha}
+		p_b n_x\Phi_{i,\alpha}\,d\Gamma,\\
+		\mathcal{W}_{x} = (w_{x,1},\dots,w_{x,N_x})^T,\quad
+		\mathcal{W}_{p} = (w_{p,1},\dots,w_{p,N_p})^T
+	\end{gathered}
+\end{equation}
+Тогда получается система с $N_x + N_p$ столбцами и $m_\varphi$ строками
+\begin{equation}
+	A_x\mathcal{W}_x - B_x\mathcal{W}_p   = F_x.
+\end{equation}
+
+
+Введя $A_y$, $B_y$, $F_y$, $W_y$,  получим то же самое и для второго уравнения
+\begin{equation}
+	A_y\mathcal W_y-B_y\mathcal W_p=F_y.
+\end{equation}
+
+Для третьего уравнения ($i=1,\ldots,m_q$)
+\begin{equation}
+	\begin{gathered}
+		\sum_{j=1}^{N_x}
+		\omega_{x,j}
+		\left(
+			\sum_{\alpha=1}^{N_\tau}
+			\int_{\tau_\alpha}
+			Q_{i,\alpha}
+			\frac{\partial\lambda_{x,j,\alpha}}{\partial x}
+			\,d\tau_\alpha
+		\right)
+		+
+		\sum_{j=1}^{N_y}
+		\omega_{y,j}
+		\left(
+			\sum_{\alpha=1}^{N_\tau}
+			\int_{\tau_\alpha}
+			Q_{i,\alpha}
+			\frac{\partial\lambda_{y,j,\alpha}}{\partial y}
+			\,d\tau_\alpha
+		\right)
+		=0
+	\end{gathered}
+\end{equation}
+вводим
+\begin{equation}
+		(C_x)_{ij}
+		=
+		\sum_{\alpha=1}^{N_\tau}
+		\int_{\tau_\alpha}
+		Q_{i,\alpha}
+		\frac{\partial\lambda_{x,j,\alpha}}{\partial x}
+		\,d\tau_\alpha,\quad
+		(C_y)_{ij}
+		=
+		\sum_{\alpha=1}^{N_\tau}
+		\int_{\tau_\alpha}
+		Q_{i,\alpha}
+		\frac{\partial\lambda_{y,j,\alpha}}{\partial y}
+		\,d\tau_\alpha.
+\end{equation}
+тогда
+\begin{equation}
+	C_x\mathcal W_x+C_y\mathcal W_y=0.
+\end{equation}
+
+Поную систему можно записать блочной матрией
+\begin{equation}
+	\begin{pmatrix}
+		A_x & 0 & -B_x\\
+		0 & A_y & -B_y\\
+		C_x & C_y & 0
+		\end{pmatrix}
+		\begin{pmatrix}
+		\mathcal W_x\\
+		\mathcal W_y\\
+		\mathcal W_p
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+		F_x\\
+		F_y\\
+		0.
+	\end{pmatrix}
+\end{equation}
+
+Условия Неймана уже учтены в правых частях $F_x$ и $F_y$.
+Остаётся учесть условия Дирихле: на $\Gamma_D$ обе
+компоненты скорости равны нулю.
+
+Для каждого узла скорости, расположенного на $\Gamma_D$,
+соответствующие значения коэффициентов $\omega_{x,j}$ и
+$\omega_{y,j}$ принимаются равными нулю. Если система
+собрана для всех узлов, то в ней для каждого такого
+коэффициента обнуляются соответствующие строка и столбец,
+на диагонали устанавливается единица, а соответствующий
+элемент правой части приравнивается к нулю.
+
+После этого полученная система готова к решению.
+
+
+
+
+\section{Выбор базисных функций}
+
+Для построения приближённого решения воспользуемся методом
+Галёркина. Выберем тестовые функции совпадающими с базисными
+функциями, используемыми для приближения соответствующих
+искомых функций:
+$
+	\varphi_i=\lambda_{x,i},
+$ 
+$
+\psi_i=\lambda_{y,i},
+$
+$
+	q_i=\lambda_{p,i}.
+$
+Тогда количество тестовых функций совпадает с количеством
+соответствующих базисных функций:
+$
+	m_\varphi=N_x,
+$
+$
+	m_\psi=N_y,
+$
+$
+	m_q=N_p.
+$
+
+Тогда возникают соотношения
+\begin{equation}
+		(C_x)_{ki}
+		=
+		\sum_{\alpha=1}^{N_\tau}
+		\int_{\tau_\alpha}
+		\lambda_{p,k,\alpha}
+		\frac{\partial\lambda_{x,i,\alpha}}{\partial x}
+		\,d\tau_\alpha
+		=
+		(B_x)_{ik},
+		\quad
+		\text{и}
+		\quad
+		(C_y)_{ki} = (B_x)_{ik}.
+\end{equation}
+
+Таким образом, глобальную систему можно записать в виде
+\begin{equation}
+	\begin{pmatrix}
+		A_x & 0 & -B_x\\
+		0 & A_y & -B_y\\
+		B_x^T & B_y^T & 0
+	\end{pmatrix}
+	\begin{pmatrix}
+		\mathcal W_x\\
+		\mathcal W_y\\
+		\mathcal W_p
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		F_x\\
+		F_y\\
+		0
+	\end{pmatrix}.
+\end{equation}
+Полученная матрица является квадратной и имеет размер
+$(N_x+N_y+N_p)\times(N_x+N_y+N_p)$.
+
+Для построения устойчивой дискретной системы необходимо
+подходящим образом выбрать пространства приближений скорости
+и давления. Одним из таких выборов является элемент
+Тейлора--Худа: область разюивается на треугольники, на каждом скорость приближается полиномами второй степени, а давление --- полиномами первой
+степени. Устойчивость соответствующей пары пространств,
+в том числе выполнение дискретного условия inf-sup при
+определённых условиях на сетку и граничные условия,
+доказана в литературе~\cite{taylor_hood}.
+
+Имеем $N_T$ треугольников $T_h$. Поскольку
+$\left.p^*\right|_{T_h}\in P_1(T_h)$ для каждого
+$h=1,\ldots,N_T$, то это ограничение однозначно задаётся
+тремя коэффициентами $(c_1,c_2,c_3)$ в базисе $\{1,x,y\}$.
+Следовательно, для задания базиса в $P_1(T_h)$ необходимы
+три линейно независимые функции.
+
+В качестве базиса можно использовать не только $\{1,x,y\}$,
+но и другие три линейно независимые функции из $P_1(T_h)$.
+Выберем базис, связанный с вершинами треугольника.
+
+
+Для того чтобы ограничения $p^*|_{T_a}$ и $p^*|_{T_b}$
+совпадали на общем ребре $T_a\cap T_b$, достаточно
+совпадения их значений в двух различных точках этого ребра,
+поскольку оба ограничения линейны.
+
+Удобно выбрать базисные функции так, чтобы коэффициенты
+разложения на треугольнике $\omega_{p,i}^{(h)}$ были равны
+значениям приближённого давления в его вершинах:
+\begin{equation}
+	p^*\left(a_j^{(h)}\right)
+	=
+	\omega_{p,j}^{(h)},
+	\qquad j=1,2,3;
+\end{equation}
+подставляя разложение давления, получаем
+\begin{equation}
+	\sum_{i=1}^{3}\omega_{p,i}^{(h)}\lambda_{p,i}^{(h)}(a_j^{(h)})
+	=\omega_{p,j}^{(h)};
+\end{equation}
+	отсюда получаем требования
+\begin{equation}
+		\lambda_{p,i}^{(h)}(a_j^{(h)})=\delta_{ij},\quad \text{и} \quad
+		\lambda_{p,1}^{(h)}+	\lambda_{p,2}^{(h)}+	\lambda_{p,3}^{(h)} = 1.
+\end{equation}
+
+\begin{tcolorbox}
+		Рассмотрим эталонный треугольник
+		$\widehat{T}\subset\mathbb{R}^2_{\xi,\eta}$
+		с вершинами
+		$M_1=(0,0)$, $M_2=(1,0)$, $M_3=(0,1)$.
+		На нем базисные функции
+		пространства $P_1(\widehat{T})$,
+		удовлетворяющие условиям~\eqref{eq:qwe},
+		имеют вид
+		\begin{equation}
+			\phi_1(\xi,\eta)=1-\xi-\eta,\qquad
+			\phi_2(\xi,\eta)=\xi,\qquad
+			\phi_3(\xi,\eta)=\eta.
+		\end{equation}
+	\end{tcolorbox}
+	
+	Для построения базисных функций на произвольном
+	треугольнике $T_h$ сетки можно воспользоваться
+	следующим подходом:
+	\begin{enumerate}
+		\item ввести  $\widehat T$;
+		
+		\item построить обратимое аффинное
+		отображение для треугльника с вершинами $(x_1,y_1),~(x_2,y_2),~(x_3,y_3)$ -- 
+		$G_h:T_h\to\widehat T$;
+		
+		\item на $\widehat T$ задать $\phi_1,\phi_2,\phi_3$;
+		
+		\item с помощью обратного отображения
+		$G_h^{-1}$ перенести $\phi_1,\phi_2,\phi_3$
+		на  $T_h$,
+		получив 
+		$\lambda_{p,i}^{(h)}(x,y)$;
+	\end{enumerate}
+	то есть
+	\begin{equation}
+		\lambda^{(h)}_{p,i}(x,y) = \phi_i(G_h(x,y)),\quad x,y \in T_h.
+	\end{equation}
+	В результате они будут выглядеть следующим образом
+	\begin{equation}
+	\begin{gathered}
+	D^{(h)} = (x_2 - x_1)(y_3 - y_1) - (x_3 - x_1)(y_2 - y_1),
+	\\
+	\lambda_{p,1}^{(h)}(x,y) =
+	\frac{(x_2 - x)(y_3 - y) - (x_3 - x)(y_2 - y)}{D^{(h)}},
+	\\
+	\lambda_{p,2}^{(h)}(x,y) =
+	\frac{(y_3 - y_1)(x - x_1) - (x_3 - x_1)(y - y_1)}{D^{(h)}},
+	\\
+	\lambda_{p,3}^{(h)}(x,y) =
+	\frac{(x_2 - x_1)(y - y_1) - (y_2 - y_1)(x - x_1)}{D^{(h)}},
+	\end{gathered}
+	\quad (x,y) \in T_h.
+	\end{equation}
+	Коэффициенты, после приведения подобных, определяются
+	\begin{equation}
+		\begin{pmatrix}
+			c_{1,1} & c_{1,2} & c_{1,3}\\
+			c_{2,1} & c_{2,2} & c_{2,3}\\
+			c_{3,1} & c_{3,2} & c_{3,3}
+		\end{pmatrix}
+		=
+		\frac{1}{D^{(h)}}
+		\begin{pmatrix}
+			x_2y_3-x_3y_2 & y_2-y_3 & x_3-x_2\\
+			x_3y_1-x_1y_3 & y_3-y_1 & x_1-x_3\\
+			x_1y_2-x_2y_1 & y_1-y_2 & x_2-x_1
+		\end{pmatrix}.
+	\end{equation}
+
+	Для приближения каждой компоненты скорости на треугольнике
+	$T_h$ используется пространство $P_2(T_h)$. Его базис
+	$\{1,x,y,x^2,xy,y^2\}$ содержит шесть функций, поэтому для
+	построения узлового базиса выберем шесть узлов: три вершины
+	треугольника и середины трёх его рёбер. Точек в которых значения (значения скоростей) на общем ребре дожны совпадать -- 3, возьмем за них вершины и середину ребера. Получаем те же условия
+	\begin{equation}
+	\lambda_{u,i}^{(h)}\left(a_j^{(h)}\right)
+	=
+	\delta_{ij},
+	\quad i,j=1,\ldots,6 \quad \text{и} \quad
+	\lambda_1 + \cdots + \lambda_6 = 1.
+	\end{equation}
+	Подставляя подставляя координаты шести узлов в это выражение, получаем систему относительно коэффициентов
+	$c_{i,1},\ldots,c_{i,6}$:
+	\begin{equation}
+		c_{i,1}+c_{i,2}x_j+c_{i,3}y_j
+		+c_{i,4}x_j^2+c_{i,5}x_jy_j+c_{i,6}y_j^2
+		=
+		\delta_{ij},
+		\qquad j=1,\ldots,6.
+	\end{equation}
+	Для невырожденного треугольника эта система решается однозначно
+\begin{equation}
+	\begin{pmatrix}
+		c_{1,1} & c_{1,2} & c_{1,3} & c_{1,4} & c_{1,5} & c_{1,6}\\
+		c_{2,1} & c_{2,2} & c_{2,3} & c_{2,4} & c_{2,5} & c_{2,6}\\
+		c_{3,1} & c_{3,2} & c_{3,3} & c_{3,4} & c_{3,5} & c_{3,6}\\
+		c_{4,1} & c_{4,2} & c_{4,3} & c_{4,4} & c_{4,5} & c_{4,6}\\
+		c_{5,1} & c_{5,2} & c_{5,3} & c_{5,4} & c_{5,5} & c_{5,6}\\
+		c_{6,1} & c_{6,2} & c_{6,3} & c_{6,4} & c_{6,5} & c_{6,6}
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		2a_1^2-a_1 & (4a_1-1)b_1 & (4a_1-1)d_1
+		& 2b_1^2 & 4b_1d_1 & 2d_1^2\\
+
+		2a_2^2-a_2 & (4a_2-1)b_2 & (4a_2-1)d_2
+		& 2b_2^2 & 4b_2d_2 & 2d_2^2\\
+
+		2a_3^2-a_3 & (4a_3-1)b_3 & (4a_3-1)d_3
+		& 2b_3^2 & 4b_3d_3 & 2d_3^2\\
+
+		4a_1a_2 & 4(a_1b_2+a_2b_1) & 4(a_1d_2+a_2d_1)
+		& 4b_1b_2 & 4(b_1d_2+b_2d_1) & 4d_1d_2\\
+
+		4a_2a_3 & 4(a_2b_3+a_3b_2) & 4(a_2d_3+a_3d_2)
+		& 4b_2b_3 & 4(b_2d_3+b_3d_2) & 4d_2d_3\\
+
+		4a_3a_1 & 4(a_3b_1+a_1b_3) & 4(a_3d_1+a_1d_3)
+		& 4b_3b_1 & 4(b_3d_1+b_1d_3) & 4d_3d_1
+	\end{pmatrix}.
+\end{equation}
+
+
+
+
+
+
+
+\end{document}

@@ -1,0 +1,367 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+\input{C:/preamble.tex}
+
+\begin{document}
+	
+	
+
+	
+	Обозначим его вершины
+	\[
+	\widehat a_1=(0,0),\qquad
+	\widehat a_2=(1,0),\qquad
+	\widehat a_3=(0,1).
+	\]
+	Координаты на нём будем обозначать \(\xi,\eta\), чтобы не смешивать с координатами \(x,y\) нашего треугольника.
+	
+	Базисные функции на эталоне:
+	\[
+	\widehat\lambda_1(\xi,\eta)=1-\xi-\eta,\qquad
+	\widehat\lambda_2(\xi,\eta)=\xi,\qquad
+	\widehat\lambda_3(\xi,\eta)=\eta.
+	\]
+	Проверка в вершинах:
+	\[
+	\begin{array}{c|ccc}
+		&\widehat\lambda_1&\widehat\lambda_2&\widehat\lambda_3\\ \hline
+		(0,0)&1&0&0\\
+		(1,0)&0&1&0\\
+		(0,1)&0&0&1
+	\end{array}
+	\]
+	Это нужный нам узловой базис.
+	
+	Для эталонных вершин лучше использовать \(\widehat a_i\), поскольку \(a_i^{(h)}\) у тебя обозначают вершины реального треугольника.
+	
+
+	
+	Пусть вершины нашего треугольника:
+	\[
+	a_1^{(h)}=(x_1,y_1),\qquad
+	a_2^{(h)}=(x_2,y_2),\qquad
+	a_3^{(h)}=(x_3,y_3).
+	\]
+	Здесь рассматриваем фиксированный \(h\), поэтому у координат вершин дополнительный индекс опущен.
+	
+	Ищем преобразование вида
+	\[
+	\begin{pmatrix}x\\y\end{pmatrix}
+	=
+	\underbrace{\begin{pmatrix}
+			\alpha&\beta\\
+			\gamma&\delta
+	\end{pmatrix}}_{A_h}
+	\begin{pmatrix}\xi\\\eta\end{pmatrix}
+	+
+	\underbrace{\begin{pmatrix}b_x\\b_y\end{pmatrix}}_{b_h}.
+	\]
+	
+	**Умножение матрицы на столбец выполняется по строкам:**
+	\[
+	\begin{pmatrix}
+		\alpha&\beta\\
+		\gamma&\delta
+	\end{pmatrix}
+	\begin{pmatrix}\xi\\\eta\end{pmatrix}
+	=
+	\begin{pmatrix}
+		\alpha\xi+\beta\eta\\
+		\gamma\xi+\delta\eta
+	\end{pmatrix}.
+	\]
+	Поэтому преобразование означает два обычных равенства:
+	\[
+	\begin{cases}
+		x=\alpha\xi+\beta\eta+b_x,\\
+		y=\gamma\xi+\delta\eta+b_y.
+	\end{cases}
+	\]
+	
+	Теперь определим все коэффициенты из желаемого соответствия вершин.
+	
+	Для \((\xi,\eta)=(0,0)\) хотим получить \((x_1,y_1)\):
+	\[
+	\begin{pmatrix}x_1\\y_1\end{pmatrix}
+	=
+	\begin{pmatrix}
+		\alpha\cdot0+\beta\cdot0\\
+		\gamma\cdot0+\delta\cdot0
+	\end{pmatrix}
+	+
+	\begin{pmatrix}b_x\\b_y\end{pmatrix}.
+	\]
+	Следовательно,
+	\[
+	b_x=x_1,\qquad b_y=y_1.
+	\]
+	
+	Для \((\xi,\eta)=(1,0)\) хотим получить \((x_2,y_2)\):
+	\[
+	\begin{pmatrix}x_2\\y_2\end{pmatrix}
+	=
+	\begin{pmatrix}\alpha\\\gamma\end{pmatrix}
+	+
+	\begin{pmatrix}x_1\\y_1\end{pmatrix}.
+	\]
+	Отсюда
+	\[
+	\alpha=x_2-x_1,\qquad \gamma=y_2-y_1.
+	\]
+	
+	Для \((\xi,\eta)=(0,1)\) хотим получить \((x_3,y_3)\):
+	\[
+	\begin{pmatrix}x_3\\y_3\end{pmatrix}
+	=
+	\begin{pmatrix}\beta\\\delta\end{pmatrix}
+	+
+	\begin{pmatrix}x_1\\y_1\end{pmatrix},
+	\]
+	поэтому
+	\[
+	\beta=x_3-x_1,\qquad \delta=y_3-y_1.
+	\]
+	
+	Итак,
+	\[
+	\boxed{
+		\begin{pmatrix}x\\y\end{pmatrix}
+		=
+		\begin{pmatrix}
+			x_2-x_1&x_3-x_1\\
+			y_2-y_1&y_3-y_1
+		\end{pmatrix}
+		\begin{pmatrix}\xi\\\eta\end{pmatrix}
+		+
+		\begin{pmatrix}x_1\\y_1\end{pmatrix}.
+	}
+	\]
+	
+
+	
+	То же умножение можно раскрыть **по столбцам**:
+	\[
+	\begin{pmatrix}
+		x_2-x_1&x_3-x_1\\
+		y_2-y_1&y_3-y_1
+	\end{pmatrix}
+	\begin{pmatrix}\xi\\\eta\end{pmatrix}
+	=
+	\xi\begin{pmatrix}x_2-x_1\\y_2-y_1\end{pmatrix}
+	+
+	\eta\begin{pmatrix}x_3-x_1\\y_3-y_1\end{pmatrix}.
+	\]
+	Следовательно,
+	\[
+	\boxed{
+		\begin{pmatrix}x\\y\end{pmatrix}
+		=
+		\begin{pmatrix}x_1\\y_1\end{pmatrix}
+		+\xi\begin{pmatrix}x_2-x_1\\y_2-y_1\end{pmatrix}
+		+\eta\begin{pmatrix}x_3-x_1\\y_3-y_1\end{pmatrix}.
+	}
+	\]
+	
+	Смысл такой: **начинаем в первой вершине и прибавляем \(\xi\) раз вектор первого ребра и \(\eta\) раз вектор второго ребра**.
+	
+	Столбцы \(A_h\) — это как раз два вектора рёбер, выходящих из первой вершины. Они могут иметь другую длину и угол между собой, чем оси эталонного треугольника.
+	
+	Перегруппировав слагаемые, получаем
+	\[
+	(x,y)=(1-\xi-\eta)a_1^{(h)}
+	+\xi a_2^{(h)}
+	+\eta a_3^{(h)}.
+	\]
+	У точек эталонного треугольника
+	\[
+	\xi\ge0,\qquad \eta\ge0,\qquad \xi+\eta\le1.
+	\]
+	Поэтому все три веса неотрицательны и в сумме дают единицу: преобразование действительно переводит весь эталонный треугольник в наш.
+	
+
+	
+	Наша задача — вычислить, например,
+	\[
+	\lambda_{p,2}^{(h)}(x,y)
+	\]
+	в заданной точке **реального** треугольника.
+	
+	Но известная эталонная функция принимает аргументы \(\xi,\eta\):
+	\[
+	\widehat\lambda_2(\xi,\eta)=\xi.
+	\]
+	Значит, сначала нужно ответить: **какая точка эталона соответствует заданной точке \((x,y)\)?**
+	
+	Для этого решаем полученную систему относительно \(\xi,\eta\):
+	\[
+	\begin{pmatrix}x-x_1\\y-y_1\end{pmatrix}
+	=
+	A_h\begin{pmatrix}\xi\\\eta\end{pmatrix},
+	\]
+	откуда
+	\[
+	\begin{pmatrix}\xi\\\eta\end{pmatrix}
+	=
+	A_h^{-1}
+	\begin{pmatrix}x-x_1\\y-y_1\end{pmatrix}.
+	\]
+	
+	**5. Раскроем обратную матрицу и умножение**
+	
+	Для матрицы размера \(2\times2\)
+	\[
+	\begin{pmatrix}a&b\\c&d\end{pmatrix}^{-1}
+	=
+	\frac1{ad-bc}
+	\begin{pmatrix}d&-b\\-c&a\end{pmatrix}.
+	\]
+	В нашем случае определитель равен
+	\[
+	D_h=(x_2-x_1)(y_3-y_1)
+	-(x_3-x_1)(y_2-y_1).
+	\]
+	Для невырожденного треугольника \(D_h\ne0\). Геометрически \(|D_h|\) — удвоенная площадь треугольника; знак зависит от порядка вершин. **В формуле обратной матрицы сохраняем именно \(D_h\), со знаком.**
+	
+	Тогда
+	\[
+	A_h^{-1}
+	=
+	\frac1{D_h}
+	\begin{pmatrix}
+		y_3-y_1&-(x_3-x_1)\\
+		-(y_2-y_1)&x_2-x_1
+	\end{pmatrix}.
+	\]
+	Умножаем каждую строку на столбец:
+	\[
+	\begin{pmatrix}\xi\\\eta\end{pmatrix}
+	=
+	\frac1{D_h}
+	\begin{pmatrix}
+		(y_3-y_1)(x-x_1)-(x_3-x_1)(y-y_1)\\
+		-(y_2-y_1)(x-x_1)+(x_2-x_1)(y-y_1)
+	\end{pmatrix}.
+	\]
+	Следовательно,
+	\[
+	\boxed{
+		\xi(x,y)=
+		\frac{(y_3-y_1)(x-x_1)-(x_3-x_1)(y-y_1)}{D_h},
+	}
+	\]
+	\[
+	\boxed{
+		\eta(x,y)=
+		\frac{-(y_2-y_1)(x-x_1)+(x_2-x_1)(y-y_1)}{D_h}.
+	}
+	\]
+	
+	**6. Как из этого получаются базисные функции**
+	
+	Теперь просто подставляем найденные координаты в эталонные функции:
+	\[
+	\boxed{
+		\begin{aligned}
+			\lambda_{p,1}^{(h)}(x,y)&=1-\xi(x,y)-\eta(x,y),\\
+			\lambda_{p,2}^{(h)}(x,y)&=\xi(x,y),\\
+			\lambda_{p,3}^{(h)}(x,y)&=\eta(x,y).
+		\end{aligned}
+	}
+	\]
+	
+	Мы **не умножаем значения функций на матрицу**. Матрица преобразует координаты точки, а функция в соответствующей точке получает то же скалярное значение.
+	
+	Если обозначить прямое преобразование через \(F_h\), эта подстановка кратко записывается:
+	\[
+	\lambda_{p,i}^{(h)}=\widehat\lambda_i\circ F_h^{-1}.
+	\]
+	То есть сначала выполняется \(F_h^{-1}\), затем вычисляется \(\widehat\lambda_i\).
+	
+	Раскрывая скобки, получаем явный вид всех трёх функций:
+	\[
+	\boxed{
+		\lambda_{p,1}^{(h)}(x,y)=
+		\frac{x_2y_3-x_3y_2+(y_2-y_3)x+(x_3-x_2)y}{D_h},
+	}
+	\]
+	\[
+	\boxed{
+		\lambda_{p,2}^{(h)}(x,y)=
+		\frac{x_3y_1-x_1y_3+(y_3-y_1)x+(x_1-x_3)y}{D_h},
+	}
+	\]
+	\[
+	\boxed{
+		\lambda_{p,3}^{(h)}(x,y)=
+		\frac{x_1y_2-x_2y_1+(y_1-y_2)x+(x_2-x_1)y}{D_h}.
+	}
+	\]
+	Вот те самые функции вида \(c_{i,1}+c_{i,2}x+c_{i,3}y\): их коэффициенты теперь выражены через вершины треугольника.
+	
+	Условие Кронекера сохраняется автоматически. Например, вершина \(a_2^{(h)}\) при обратном преобразовании переходит в \((1,0)\), поэтому значения трёх функций в ней равны \(0,1,0\).
+	
+	**7. Численный пример всей процедуры**
+	
+	Возьмём треугольник
+	\[
+	a_1=(1,1),\qquad a_2=(3,1),\qquad a_3=(2,4).
+	\]
+	Тогда
+	\[
+	A=
+	\begin{pmatrix}2&1\\0&3\end{pmatrix},
+	\qquad
+	b=\begin{pmatrix}1\\1\end{pmatrix}.
+	\]
+	Прямое преобразование:
+	\[
+	\begin{pmatrix}x\\y\end{pmatrix}
+	=
+	\begin{pmatrix}2&1\\0&3\end{pmatrix}
+	\begin{pmatrix}\xi\\\eta\end{pmatrix}
+	+\begin{pmatrix}1\\1\end{pmatrix}
+	=
+	\begin{pmatrix}2\xi+\eta+1\\3\eta+1\end{pmatrix}.
+	\]
+	Поэтому
+	\[
+	y=3\eta+1
+	\quad\Longrightarrow\quad
+	\eta=\frac{y-1}{3},
+	\]
+	\[
+	x=2\xi+\eta+1
+	\quad\Longrightarrow\quad
+	\xi=\frac{x-1}{2}-\frac{y-1}{6}.
+	\]
+	Подставляем:
+	\[
+	\lambda_1(x,y)
+	=1-\frac{x-1}{2}-\frac{y-1}{6},
+	\]
+	\[
+	\lambda_2(x,y)
+	=\frac{x-1}{2}-\frac{y-1}{6},
+	\qquad
+	\lambda_3(x,y)=\frac{y-1}{3}.
+	\]
+	
+	Например, в точке \((2,2)\):
+	\[
+	\xi=\frac12-\frac16=\frac13,\qquad
+	\eta=\frac13.
+	\]
+	Следовательно,
+	\[
+	\lambda_1(2,2)=\lambda_2(2,2)=\lambda_3(2,2)=\frac13,
+	\]
+	и давление в ней выражается как
+	\[
+	p(2,2)=\frac13\omega_{p,1}
+	+\frac13\omega_{p,2}
+	+\frac13\omega_{p,3}.
+	\]
+	
+	Таким образом, для каждой точки реального треугольника мы находим её координаты на эталоне и используем их в уже известных формулах \(1-\xi-\eta,\xi,\eta\). **Это позволяет один раз построить базис на эталоне, а затем получать его на каждом треугольнике сетки через координаты вершин.**
+	
+\end{document}

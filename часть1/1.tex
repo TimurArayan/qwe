@@ -1,0 +1,404 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+\input{C:/preamble.tex}
+
+\usepackage{tcolorbox}
+
+\begin{document}
+	dfgfdsg
+	\section{Формулировка задачи}
+	Стационарная задача Стокса на $(x,y)\in\Omega$ в простейшем случае
+;	\begin{equation}
+		\begin{dcases}
+			-\nu \big(\frac{\partial^2 \tilde v_x}{\partial x^2} + \frac{\partial^2 \tilde v_x}{\partial y^2}\big) + \frac{\partial \tilde p}{\partial x} = f_x, \\
+			-\nu \big(\frac{\partial^2 \tilde v_y}{\partial x^2} + \frac{\partial^2 \tilde v_y}{\partial y^2}\big) + \frac{\partial \tilde p}{\partial y} = f_y, \\
+			\frac{\partial \tilde v_x}{\partial x}
+			+ \frac{\partial \tilde v_y}{\partial y} = 0,
+		\end{dcases}
+		\quad
+		\begin{gathered}
+			\left.\tilde u\right|_{\partial\Omega}=0,\\
+			\int_{\Omega}\tilde p d \Omega = 0;
+		\end{gathered}
+		\label{eq:1}
+	\end{equation}
+	в векторном виде  $\tilde u = (\tilde v_x, \tilde v_y)$ и $\tilde f = (f_1,f_2)$
+	\begin{equation}
+		\begin{dcases}
+			-\nu \Delta \tilde u + \nabla \tilde p  = \tilde f, \\
+			\mathrm{div} \tilde u = 0,
+		\end{dcases}
+		\quad
+		\begin{gathered}
+			\left.\tilde u\right|_{\partial\Omega}=0,\\
+			\int_{\Omega}\tilde p d \Omega = 0;
+		\end{gathered}
+		\label{eq:2}
+	\end{equation}
+	где $\tilde u$ -- скорости, $\tilde p$ -- давление, $\nu$ -- вязкость (известна).
+	
+	\section{Триангуляиця}
+	\dots
+	
+	В результате получили $N_T$ треугольников, $N$ вершин и $N_E$ ребер.
+	
+	
+	
+	\section{Локальное решение}
+	Численное решение на всей сетке $p$ и $u=(v_x,v_y)$ будем искать в виде кусочной функции,
+	\begin{equation}
+		\begin{gathered}
+			p = \bigcup_{h=1}^{N_T} p^{(h)},
+			\quad
+			u = \bigcup_{h=1}^{N_T} u^{(h)};
+		\end{gathered}
+	\end{equation}
+	однако соседние треугольники имеют общие вершины и ребра, для получения глобальных (действующих на всей области) непрерывных функций необходимо обеспечить совпадение значений локальных полиномов на пересечениях треугольников:
+	\begin{equation}
+		p^{(h)}(x,y) = p^{(\eta)}(x,y),~~~
+		u^{(h)}(x,y) = u^{(\eta)}(x,y),~~~
+		\text{при}~~~(x,y)\in T_h\cap T_\eta.
+	\end{equation}
+	
+ 	Для уравнения Стокса стандартными конечным элементами являются элементы Тейлора-Худа -- полиномы 1-ой и 2-ой степеней для $p$ и $u$, их базисы $\{1,x,y\}$ и $\{1,x,y,x^2,xy,y^2\}$, то есть $N_{\lambda_{p}}=3$, $N_{\lambda_{u}} = N_{\lambda_{x}}= N_{\lambda_{y}}=6$, получаем формулу в которой неизвестными являются веса при $\lambda_i$ -- $\omega_i$.
+	\begin{equation}
+	\begin{gathered}
+		p^{(h)} = \sum_{i=1}^{N_{\lambda_{p}}} \omega_{p,i}^{(h)} \cdot \lambda_{p,i}^{(h)},\\
+		u^{(h)} = \sum_{i=1}^{N_{\lambda_{u}}} \omega_{u,i}^{(h)} \circ  \lambda_{u,i}^{(h)},\quad
+		\text{где} \quad
+		\omega_{u}^{(h)}=(\omega_{x}^{(h)},\omega_{y}^{(h)}),~
+		\lambda_{u}^{(h)}=(\lambda_{x}^{(h)},\lambda_{y}^{(h)})
+	\end{gathered}
+	\end{equation}
+	
+	
+	Теперь определимся со способом задания базисных функций.
+	
+
+
+	
+	
+	
+	Поскольку $p^{(h)} \in P_1$, то обязательно $\lambda_{i,p}^{(h)} \in P_1$
+	\[
+	\lambda_{p,i}(x,y)^{(h)} =c_{i,1}+c_{i,2}x+c_{i,3}y,
+	\qquad i=1,2,3.
+	\]
+	Осталось выбрать коэффициенты $c_{i,k}$.
+	
+	При построении решения на всей сетке необходимо согласовать значение на ребрах соседних треугольников, они должны совпадать -- для этого, поскольку функции линейны, достаточно обеспечить совпадение значений на концах ребер, то есть в узлах сетки. Поэтому удобно, но не обязательно, использовать в качестве неизвестных именно значения $p|_{T_h}$ в вершинах сетки (треугольников) $a_j^{(h)}$, назначая общей вершине соседних треугольников одну общую неизвестную.
+	Потребуем это
+	\begin{equation}
+	p^{(h)}(a_j^{(h)})=\omega_{p,j}^{(h)},\qquad j=1,2,3;
+	\end{equation}
+	подставляя разложение давления, получаем
+	\begin{equation}
+	\sum_{i=1}^{3}\omega_{p,i}^{(h)}\lambda_{p,i}^{(h)}(a_j^{(h)})
+	=\omega_{p,j}^{(h)};
+	\end{equation}
+	отсюда получаем требования
+	\begin{equation}
+		\lambda_{p,i}^{(h)}(a_j^{(h)})=\delta_{ij},\quad \text{и} \quad
+		\lambda_{p,1}^{(h)}+	\lambda_{p,2}^{(h)}+	\lambda_{p,3}^{(h)} = 1.
+	\label{eq:qwe}
+	\end{equation}
+	
+	\begin{tcolorbox}
+		Рассмотрим эталонный треугольник
+		$\widehat{T}\subset\mathbb{R}^2_{\xi,\eta}$
+		с вершинами
+		$M_1=(0,0)$, $M_2=(1,0)$, $M_3=(0,1)$.
+		На нем базисные функции
+		пространства $P_1(\widehat{T})$,
+		удовлетворяющие условиям~\eqref{eq:qwe},
+		имеют вид
+		\begin{equation}
+			\phi_1(\xi,\eta)=1-\xi-\eta,\qquad
+			\phi_2(\xi,\eta)=\xi,\qquad
+			\phi_3(\xi,\eta)=\eta.
+		\end{equation}
+	\end{tcolorbox}
+	
+	Для построения базисных функций на произвольном
+	треугольнике $T_h$ сетки можно воспользоваться
+	следующим подходом:
+	\begin{enumerate}
+		\item ввести  $\widehat T$;
+		
+		\item построить обратимое аффинное
+		отображение
+		$G_h:T_h\to\widehat T$;
+		
+		\item на $\widehat T$ задать $\phi_1,\phi_2,\phi_3$;
+		
+		\item с помощью обратного отображения
+		$G_h^{-1}$ перенести $\phi_1,\phi_2,\phi_3$
+		на  $T_h$,
+		получив 
+		$\lambda_{p,i}^{(h)}(x,y)$;
+	\end{enumerate}
+	то есть
+	\begin{equation}
+		\lambda^{(h)}_{p,i}(x,y) = \phi_i(G_h(x,y)),\quad x,y \in T_h
+	\end{equation}
+	В результате они будут выглядеть следующим образом
+	\begin{equation}
+	\begin{gathered}
+	D^{(h)} = (x_2 - x_1)(y_3 - y_1) - (x_3 - x_1)(y_2 - y_1),
+	\\
+	\lambda_{p,1}^{(h)}(x,y) =
+	\frac{(x_2 - x)(y_3 - y) - (x_3 - x)(y_2 - y)}{D},
+	\\
+	\lambda_{p,2}^{(h)}(x,y) =
+	\frac{(y_3 - y_1)(x - x_1) - (x_3 - x_1)(y - y_1)}{D},
+	\\
+	\lambda_{p,3}^{(h)}(x,y) =
+	\frac{(x_2 - x_1)(y - y_1) - (y_2 - y_1)(x - x_1)}{D},
+	\end{gathered}
+	\quad x,y \in T_h.
+	\end{equation}
+	Тогда коэффициенты, после приведения подобных, определяются
+	\begin{equation}
+		\begin{pmatrix}
+			c_{1,1} & c_{1,2} & c_{1,3}\\
+			c_{2,1} & c_{2,2} & c_{2,3}\\
+			c_{3,1} & c_{3,2} & c_{3,3}
+		\end{pmatrix}
+		=
+		\frac{1}{D^{(h)}}
+		\begin{pmatrix}
+			x_2y_3-x_3y_2 & y_2-y_3 & x_3-x_2\\
+			x_3y_1-x_1y_3 & y_3-y_1 & x_1-x_3\\
+			x_1y_2-x_2y_1 & y_1-y_2 & x_2-x_1
+		\end{pmatrix}.
+	\end{equation}
+	
+	
+	Для скоростей !!потом допишу!!
+	\begin{equation}
+		\begin{gathered}
+			\lambda_{u,1}^{(h)}=\lambda_{p,1}(2\lambda_{p,1}-1),\quad
+			\lambda_{u,2}^{(h)}=\lambda_{p,2}(2\lambda_{p,2}-1),\quad
+			\lambda_{u,3}^{(h)}=\lambda_{p,2}(2\lambda_{p,3}-1), \\
+			\lambda_{u,4}^{(h)}=4\lambda_{p,1}\lambda_{p,2}, \quad
+			\lambda_{u,5}^{(h)}=4\lambda_{p,2}\lambda_{p,3},\quad
+			\lambda_{u,6}^{(h)}=4\lambda_{p,3}\lambda_{p,1}, \\
+		\end{gathered}
+	\end{equation}
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	\newpage
+	\section{Слабая форма}
+	Домножим~\ref{eq:1} на тестовые функции $\varphi, \psi, q \in C_0^\infty(\Omega)$.
+	
+	Первое уравнение будет выглядеть
+	\begin{equation}
+		\begin{gathered}
+		-\nu \int_{\Omega} \big(\frac{\partial^2 \tilde v_x}{\partial x^2} +\frac{\partial^2 \tilde v_x}{\partial y^2}\big) \varphi ~ d \Omega + 
+		\int_{\Omega} \frac{\partial \tilde p}{\partial x} \varphi ~ d \Omega = 
+		\int_{\Omega} f_x \varphi ~ d \Omega.
+		\end{gathered}
+	\end{equation}
+	Проинтегрируем по частям:
+	\begin{enumerate}
+		\item
+		\begin{equation*}
+			\begin{gathered}
+			 \int_{\Omega} \big(\frac{\partial^2 \tilde v_x}{\partial x^2} +\frac{\partial^2 \tilde v_x}{\partial y^2}\big) \varphi ~ d \Omega = 
+			 \int_{y_0}^{y_1} \int_{x_0}^{x_1} \big(\frac{\partial^2 \tilde v_x}{\partial x^2} +\frac{\partial^2 \tilde v_x}{\partial y^2}\big)  \varphi ~ d x dy = \\
+			=
+			\int_{y_0}^{y_1}\int_{x_0}^{x_1} \frac{\partial^2 \tilde v_x}{\partial x^2}  \varphi~dx dy
+			 + 
+			\int_{x_0}^{x_1}\int_{y_0}^{y_1} \frac{\partial^2 \tilde v_x}{\partial y^2}  \varphi~ dy dx = \\
+			= \int_{y_0}^{y_1} \Big( \frac{\partial \tilde v_x}{\partial x} \varphi \Big|_{x_0}^{x_1} - \int_{x_0}^{x_1} \frac{\partial \tilde v_x}{\partial x}	\frac{\partial \varphi}{\partial x}	
+			 \Big) dy
+			 +
+			 \int_{x_0}^{x_1} \Big( \frac{\partial \tilde v_x}{\partial y} \varphi \Big|_{y_0}^{y_1} - \int_{y_0}^{y_1} \frac{\partial \tilde v_x}{\partial y}	\frac{\partial \varphi}{\partial y}\Big) dx,
+		\end{gathered}
+		\end{equation*}
+		поскольку \(\varphi\in C_0^\infty(\Omega)\) -- граничные слагаемые исчезают
+		\begin{equation*}
+			- \int_{y_0}^{y_1} \int_{x_0}^{x_1} \frac{\partial \tilde v_x}{\partial x}	\frac{\partial \varphi}{\partial x} ~ dx dy
+			- \int_{x_0}^{x_1} \int_{y_0}^{y_1} \frac{\partial \tilde v_x}{\partial y}	\frac{\partial \varphi}{\partial y}~  dy dx =
+			- \int_{\Omega} \nabla(\tilde v_x) \cdot \nabla(\varphi) ~ d \Omega;
+		\end{equation*}
+		
+		\item также и со вторым слагаемым
+		\begin{equation*}
+			\int_{\Omega} \frac{\partial \tilde p}{\partial x} \varphi ~ d \Omega = - \int_{\Omega}\tilde p \frac{\partial \varphi}{\partial x} ~ d \Omega;
+		\end{equation*}
+	\end{enumerate}
+	Аналогично со вторым уравнением, третье уравнение остается таким же. Получается
+	\begin{equation}
+	\begin{dcases}
+		\nu\int_\Omega
+		\nabla\widetilde v_x\cdot\nabla\varphi ~ d\Omega
+		-
+		\int_\Omega
+		\widetilde p\,\frac{\partial\varphi}{\partial x} ~ d\Omega
+		=
+		\int_\Omega f_x\varphi ~ d\Omega, \\
+			\nu\int_\Omega
+		\nabla\widetilde v_y\cdot\nabla\psi ~ d\Omega
+		-
+		\int_\Omega
+		\widetilde p\,\frac{\partial\psi}{\partial y} ~ d\Omega
+		=
+		\int_\Omega f_y\psi ~ d\Omega, \\
+		\int_\Omega q\operatorname{div}\widetilde u ~ d\Omega = 0.
+	\end{dcases}
+	\end{equation}
+	
+	Разобьем $\Omega$ на $N_{\tau}$ подобластей $\tau_{\alpha}$ и запишем первое уравнение
+	
+	\begin{equation*}
+		\nu \sum_{\alpha=1}^{N_{\tau}} \int_{\tau_\alpha}
+		\nabla\widetilde v_x\cdot\nabla\varphi ~ d\tau_\alpha 
+		-
+		\sum_{\alpha=1}^{N_{\tau}} \int_{\tau_\alpha}
+		\widetilde p\,\frac{\partial\varphi}{\partial x} ~ d\tau_\alpha
+		=
+		\sum_{\alpha=1}^{N_{\tau}} \int_{\tau_\alpha}
+		f_x\varphi ~ d\tau_\alpha,
+		\quad
+		\forall\varphi
+	\end{equation*}
+	но самих тестовых функций $\varphi$ бесконечно много на своей подобласти -- $\varphi^{\alpha,\theta} \in \tau_\alpha$, тогда получим бесконечную систему с $2N_\tau$ столбцами, поскольку задача Стокса имеет решение, то и эта система тоже, тогда возьмем конечное количество тестовых функций $m_\varphi$. Тогда, вся система 
+	\begin{equation}
+	\begin{dcases}
+		\nu \sum_{\alpha=1}^{N_{\tau}} \int_{\tau_\alpha}
+		\nabla\widetilde v_x\cdot\nabla\varphi_1 ~ d\tau_\alpha 
+		-
+		\sum_{\alpha=1}^{N_{\tau}} \int_{\tau_\alpha}
+		\widetilde p\,\frac{\partial\varphi_1}{\partial x} ~ d\tau_\alpha
+		=
+		\sum_{\alpha=1}^{N_{\tau}} \int_{\tau_\alpha}
+		f_x\varphi_1 ~ d\tau_\alpha,
+		\\
+		\dots
+		\\
+		\nu \sum_{\alpha=1}^{N_{\tau}} \int_{\tau_\alpha}
+		\nabla\widetilde v_x\cdot\nabla\varphi_{m_\varphi} ~ d\tau_\alpha 
+		-
+		\sum_{\alpha=1}^{N_{\tau}} \int_{\tau_\alpha}
+		\widetilde p\,\frac{\partial\varphi_{m_\varphi}}{\partial x} ~ d\tau_\alpha
+		=
+		\sum_{\alpha=1}^{N_{\tau}} \int_{\tau_\alpha}
+		f_x\varphi_{m_\varphi} ~ d\tau_\alpha,
+		\\
+		\nu \sum_{\alpha=1}^{N_{\tau}} \int_{\tau_\alpha}
+		\nabla\widetilde v_y\cdot\nabla\psi_{1} ~ d\tau_\alpha 
+		-
+		\sum_{\alpha=1}^{N_{\tau}} \int_{\tau_\alpha}
+		\widetilde p\,\frac{\partial\psi_{1}}{\partial y} ~ d\tau_\alpha
+		=
+		\sum_{\alpha=1}^{N_{\tau}} \int_{\tau_\alpha}
+		f_y\psi_{1} ~ d\tau_\alpha,
+		\\
+		\dots
+		\\
+		\nu \sum_{\alpha=1}^{N_{\tau}} \int_{\tau_\alpha}
+		\nabla\widetilde v_y\cdot\nabla\psi_{m_\psi} ~ d\tau_\alpha 
+		-
+		\sum_{\alpha=1}^{N_{\tau}} \int_{\tau_\alpha}
+		\widetilde p\,\frac{\partial\psi_{m_\psi}}{\partial y} ~ d\tau_\alpha
+		=
+		\sum_{\alpha=1}^{N_{\tau}} \int_{\tau_\alpha}
+		f_y\psi_{m_\psi} ~ d\tau_\alpha,
+		\\
+		\sum_{\alpha=1}^{N_{\tau}}\int_{\tau_\alpha}
+		q_1\operatorname{div}\tilde u~ d\tau_\alpha = 0,
+		\\
+		\dots
+		\\
+		\sum_{\alpha=1}^{N_{\tau}}\int_{\tau_\alpha}
+		q_{m_q}\operatorname{div}\tilde u~ d\tau_\alpha = 0,
+	\end{dcases}
+	\end{equation}
+
+	Каждую  тестовую функцию можно представить как объединение её ограничений на отдельные подобласти
+	\begin{equation}
+	\begin{gathered}
+		\varphi_i =
+		\varphi_i\big|_{\tau_1}
+		\cup
+		\cdots 
+		\cup
+		\varphi_i\big|_{\tau_{N_\tau}}
+		=
+		\Phi_{i,1}
+		\cup
+		\cdots 
+		\cup
+		\Phi_{i,N_\tau}		\\
+		\quad
+		\text{при}
+		\quad
+		\Phi_{i,\alpha}
+		=
+		\Phi_{i,\beta}
+		\quad
+		\text{на}
+		\quad
+		\overline{\tau_\alpha}\cap\overline{\tau_\beta},
+	\end{gathered}
+	\qquad
+		\boldsymbol{\Phi}=
+		\begin{pmatrix}
+			\varphi_1\big|_{\tau_1}&  \cdots & \varphi_1\big|_{\tau_{N_\tau}} \\
+			\vdots & \ddots &  \vdots\\
+			\varphi_{m_\varphi}\big|_{\tau_1} & \cdots & \varphi_{m_\varphi}\big|_{\tau_{N_\tau}}
+		\end{pmatrix};
+	\end{equation}
+	аналогично добавим $\Psi$, $\mathcal{Q}$.
+	
+	Также аналогично последней записи и аналогично записи в разделе 3 искомые функции будем определять как объединение функций на подмножествах, введем
+	\begin{equation}
+		\mathcal{P} =
+		\left(
+		\left.\widetilde{p}\right|_{\tau_1},
+		\ldots,
+		\left.\widetilde{p}\right|_{\tau_{N_\tau}}
+		\right),
+		\quad
+		\mathcal{V}^x =
+		\left(
+		\left.\widetilde{v}_x\right|_{\tau_1},
+		\ldots,
+		\left.\widetilde{v}_x\right|_{\tau_{N_\tau}}
+		\right),
+		\cdots,
+		\mathcal{F}^y =
+		\left(
+		\left.\widetilde{f}_y\right|_{\tau_1},
+		\ldots,
+		\left.\widetilde{f}_y\right|_{\tau_{N_\tau}}
+		\right).
+	\end{equation}
+	Тогда уравнение можно будет записать как
+	\begin{equation}
+		\nu \sum_{\alpha=1}^{N_{\tau}} \int_{\tau_\alpha}
+		\nabla \mathcal{V}_{\alpha}^{x}  \cdot\nabla \Phi_{i,\alpha}  ~ d\tau_\alpha 
+		-
+		\sum_{\alpha=1}^{N_{\tau}} \int_{\tau_\alpha}
+		\mathcal{P}_{\alpha}\,\frac{\partial \Phi_{i,\alpha}}{\partial x} ~ d\tau_\alpha
+		=
+		\sum_{\alpha=1}^{N_{\tau}} \int_{\tau_\alpha}
+		\mathcal{F}^{x}_{\alpha} \Phi_{i,\alpha} ~ d\tau_\alpha,
+		\quad
+		i=1,\ldots,m_\varphi.		
+	\end{equation}
+
+	
+\end{document}
